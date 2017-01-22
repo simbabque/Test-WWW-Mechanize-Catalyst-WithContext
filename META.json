@@ -1,5 +1,5 @@
 {
-   "abstract" : "It's new $module",
+   "abstract" : "T::W::M::C can give you $c",
    "author" : [
       "simbabque <simbabque@cpan.org>"
    ],
@@ -42,11 +42,18 @@
       },
       "runtime" : {
          "requires" : {
+            "Catalyst" : "0",
+            "Catalyst::Plugin::Session" : "0",
+            "Catalyst::Plugin::Session::State::Cookie" : "0",
+            "HTTP::Request" : "0",
+            "Moose" : "0",
+            "Test::WWW::Mechanize::Catalyst" : "0",
             "perl" : "5.008001"
          }
       },
       "test" : {
          "requires" : {
+            "Test::Exception" : "0",
             "Test::More" : "0.98"
          }
       }
