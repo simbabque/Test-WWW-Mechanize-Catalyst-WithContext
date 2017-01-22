@@ -1,21 +1,39 @@
 package Catty::Controller::Root;
+use Moose;
 
-use strict;
-use warnings;
-use base qw/ Catalyst::Controller /;
-
-use utf8;
+BEGIN { extends 'Catalyst::Controller' };
 
 __PACKAGE__->config( namespace => '' );
 
-sub index :Path :Args(0) {
+has 'counter' => (
+    traits  => ['Counter'],
+    is      => 'ro',
+    isa     => 'Num',
+    default => 0,
+    handles => {
+        inc_counter   => 'inc',
+    },
+);
+
+
+sub index : Path : Args(0) {
     my ( $self, $c ) = @_;
     my $html = html( "Root", "This is the root page" );
 
-    $c->stash->{foo} = "bar";
+    $c->stash->{foo} = $self->counter;
+    $self->inc_counter;
 
     $c->response->content_type("text/html");
     $c->response->output($html);
+}
+
+sub set_session : Local : Args(2) {
+    my ( $self, $c, $key, $value ) = @_;
+
+    $c->session($key => $value);
+
+    $c->response->content_type("text/plain");
+    $c->response->output("ok");
 }
 
 # borrowed from Test::WWW::Catalyst::Mechanize

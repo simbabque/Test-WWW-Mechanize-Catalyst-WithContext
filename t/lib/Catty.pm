@@ -3,7 +3,11 @@ package Catty;
 use strict;
 use warnings;
 
-use Catalyst;
+use Catalyst qw/
+    Session
+    Session::State::Cookie
+    Session::Store::Dummy
+/;
 
 use Cwd;
 
