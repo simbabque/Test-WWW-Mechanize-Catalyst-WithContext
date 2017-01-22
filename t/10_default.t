@@ -41,6 +41,7 @@ is $old_c->session->{hello}, undef, 'old context does not know about session aft
     is $c->session->{hello}, 'world', '... but new context does';
     is $c->stash->{foo}, '2', 'new context has a new stash';
     isnt "$c", "$old_c", 'old context and new context are different refs';
+    isnt $old_c->session->{hello}, $c->session->{hello};
 }
 
 

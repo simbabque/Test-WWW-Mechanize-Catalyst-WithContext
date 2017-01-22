@@ -56,7 +56,7 @@ __END__
 
 =head1 NAME
 
-Test::WWW::Mechanize::Catalyst::WithContext - T::W::M::C can give you $c
+Test::WWW::Mechanize::Catalyst::WithContext - T::W::M::C can now give you $c
 
 =head1 SYNOPSIS
 
@@ -87,6 +87,67 @@ like being logged into your app will be taken into account.
 Does a GET request on C<$url> and returns the L<HTTP::Response> and the request context C<$c>.
 
     my ( $res, $c ) = $mech->get_context('/');
+
+=head1 EXAMPLES
+
+The following section gives a few examples where it's useful to have C<$c>.
+
+=head2 Are we loading the right template?
+
+If the content that comes out of your application does not really contain any distinct markers
+it's very hard to check if the right stuff got rendered. Instead of trying to find something
+in your HTML that helps you identify the right page with one of the content checking methods like
+C<content_like>, you can just look at the template name in the stash. Of course that doesn't tell
+you if it got rendered successfully, but it does tell you which template the controller decided
+should be rendered.
+
+    my ( $res, $c ) = $mech->get_context('/hard/to/verify/page);
+    is $c->stash->{template}, 'hard_to_verify.tt2', 'the right template got selected';
+
+=head2 Checking what's in the Session without talking to the store
+
+If you want to look at values in the session before and after some action, you would typically
+go and connect to the session store and peek around. For that, you need to know the type of the
+store, how to connect to it, and your current test user's session id. This is relatively trivial
+if a database (e.g. with L<Test::DBIx::Class>), but gets more complicated when you're not mocking
+the store and it's something a little more esoteric. Of course you could use a different store for
+your unit tests, but maybe you don't want to do that.
+
+Enter Test::WWW::Mechanize::Catalyst::WithContext. Just grab the context before and after you
+perform your action and look at the sessions.
+
+    # we don't need the response object for this request
+    (undef, my $c_before) = $mech->get_context('/'); # or some other url
+    my ( $res, $c_after ) = $mech->get_context('/change/session');
+    isnt $c_before->session->{foo}, $c_after->session->{foo}, 'foo got changed';
+
+Of course this could be arbitrarily complex.
+
+=head1 BUGS
+
+If you find any bugs please L<open an issue on github|https://github.com/simbabque/Test-WWW-Mechanize-Catalyst-WithContext/issues>.
+
+=head1 SEE ALSO
+
+=over
+
+=item
+
+L<Test::WWW::Mechanize::Catalyst>
+
+=item
+
+L<Test::WWW::Mechanize>
+
+=item
+
+L<WWW::Mechanize>
+
+=item
+
+L<Catalyst::Test>
+
+=back
     
 =head1 LICENSE
 
