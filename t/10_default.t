@@ -21,12 +21,15 @@ dies_ok { $mech->get_context } 'url is required';
 my $old_c;
 {
     my ( $res, $c ) = $mech->get_context('/');
+    isa_ok $res, 'HTTP::Response', '$res';
+    is $res->code, 200, '... and request was successful';
+
     isa_ok $c, 'Catalyst', '$c';
     isa_ok $c, 'Catty',    '$c';
     is $c->stash->{foo}, '1', '... and the current stash is accessible';
 
     my $model = $c->model('Foo');
-    isa_ok $model, 'Catty::Model::Foo';
+    isa_ok $model, 'Catty::Model::Foo', '$c->model';
     is $model->general,          'general', 'general model attribute works';
     is $model->context_specific, '1',     'attribute set by ACCEPT_CONTEXT works';
 
@@ -41,7 +44,7 @@ is $old_c->session->{hello}, undef, 'old context does not know about session aft
     is $c->session->{hello}, 'world', '... but new context does';
     is $c->stash->{foo}, '2', 'new context has a new stash';
     isnt "$c", "$old_c", 'old context and new context are different refs';
-    isnt $old_c->session->{hello}, $c->session->{hello};
+    isnt $old_c->session->{hello}, $c->session->{hello}, 'session info is different before and after';
 }
 
 
