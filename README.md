@@ -20,9 +20,13 @@ Test::WWW::Mechanize::Catalyst::WithContext - T::W::M::C can now give you $c
 Test::WWW::Mechanize::Catalyst::WithContext is a subclass of [Test::WWW::Mechanize::Catalyst](https://metacpan.org/pod/Test::WWW::Mechanize::Catalyst)
 that can give you the `$c` context object of the request you just did. This is useful for
 testing if things ended up in the stash correctly, if the session got filled without reaching
-into the persistention layer or to grab an instance of a model, view or controller to do tests
+into the persistence layer or to grab an instance of a model, view or controller to do tests
 on them. Since the cookie jar of your `$mech` will be used to fetch the context, things
 like being logged into your app will be taken into account.
+
+Besides that, it's just the same as [Test::WWW::Mechanize::Catalyst](https://metacpan.org/pod/Test::WWW::Mechanize::Catalyst). It inherits everything
+and does not overwrite any functionality. See the docs of [Test::WWW::Mechanize::Catalyst](https://metacpan.org/pod/Test::WWW::Mechanize::Catalyst) for
+more details.
 
 # METHODS
 
@@ -31,6 +35,8 @@ like being logged into your app will be taken into account.
 Does a GET request on `$url` and returns the [HTTP::Response](https://metacpan.org/pod/HTTP::Response) and the request context `$c`.
 
     my ( $res, $c ) = $mech->get_context('/');
+
+This is not a `get_ok` and does not create test output.
 
 # EXAMPLES
 
@@ -48,7 +54,7 @@ should be rendered.
     my ( $res, $c ) = $mech->get_context('/hard/to/verify/page);
     is $c->stash->{template}, 'hard_to_verify.tt2', 'the right template got selected';
 
-## Checking what's in the Session without talking to the store
+## Checking what's in the session without talking to the store
 
 If you want to look at values in the session before and after some action, you would typically
 go and connect to the session store and peek around. For that, you need to know the type of the
@@ -77,6 +83,15 @@ If you find any bugs please [open an issue on github](https://github.com/simbabq
 - [Test::WWW::Mechanize](https://metacpan.org/pod/Test::WWW::Mechanize)
 - [WWW::Mechanize](https://metacpan.org/pod/WWW::Mechanize)
 - [Catalyst::Test](https://metacpan.org/pod/Catalyst::Test)
+- [Catalyst](https://metacpan.org/pod/Catalyst)
+
+# ATTRIBUTION
+
+This module borrows parts of its test suite from [Test::WWW::Mechanize::Catalyst](https://metacpan.org/pod/Test::WWW::Mechanize::Catalyst).
+
+# AUTHOR
+
+simbabque <simbabque@cpan.org>
 
 # LICENSE
 
@@ -84,7 +99,3 @@ Copyright (C) simbabque.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
-
-# AUTHOR
-
-simbabque <simbabque@cpan.org>

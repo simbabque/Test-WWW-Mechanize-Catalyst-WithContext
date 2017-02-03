@@ -76,9 +76,13 @@ Test::WWW::Mechanize::Catalyst::WithContext - T::W::M::C can now give you $c
 Test::WWW::Mechanize::Catalyst::WithContext is a subclass of L<Test::WWW::Mechanize::Catalyst>
 that can give you the C<$c> context object of the request you just did. This is useful for
 testing if things ended up in the stash correctly, if the session got filled without reaching
-into the persistention layer or to grab an instance of a model, view or controller to do tests
+into the persistence layer or to grab an instance of a model, view or controller to do tests
 on them. Since the cookie jar of your C<$mech> will be used to fetch the context, things
 like being logged into your app will be taken into account.
+
+Besides that, it's just the same as L<Test::WWW::Mechanize::Catalyst>. It inherits everything
+and does not overwrite any functionality. See the docs of L<Test::WWW::Mechanize::Catalyst> for
+more details.
 
 =head1 METHODS
 
@@ -87,6 +91,8 @@ like being logged into your app will be taken into account.
 Does a GET request on C<$url> and returns the L<HTTP::Response> and the request context C<$c>.
 
     my ( $res, $c ) = $mech->get_context('/');
+
+This is not a C<get_ok> and does not create test output.
 
 =head1 EXAMPLES
 
@@ -104,7 +110,7 @@ should be rendered.
     my ( $res, $c ) = $mech->get_context('/hard/to/verify/page);
     is $c->stash->{template}, 'hard_to_verify.tt2', 'the right template got selected';
 
-=head2 Checking what's in the Session without talking to the store
+=head2 Checking what's in the session without talking to the store
 
 If you want to look at values in the session before and after some action, you would typically
 go and connect to the session store and peek around. For that, you need to know the type of the
@@ -147,15 +153,23 @@ L<WWW::Mechanize>
 
 L<Catalyst::Test>
 
+=item
+
+L<Catalyst>
+
 =back
+
+=head1 ATTRIBUTION
+
+This module borrows parts of its test suite from L<Test::WWW::Mechanize::Catalyst>.
     
+=head1 AUTHOR
+
+simbabque <simbabque@cpan.org>
+
 =head1 LICENSE
 
 Copyright (C) simbabque.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
-
-=head1 AUTHOR
-
-simbabque <simbabque@cpan.org>
