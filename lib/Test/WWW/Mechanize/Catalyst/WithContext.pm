@@ -58,6 +58,15 @@ __END__
 
 Test::WWW::Mechanize::Catalyst::WithContext - T::W::M::C can now give you $c
 
+=begin html
+
+<p>
+=for html <a href="https://travis-ci.org/simbabque/Test-WWW-Mechanize-Catalyst-WithContext"><img src="https://travis-ci.org/simbabque/Test-WWW-Mechanize-Catalyst-WithContext.svg?branch=master"></a>
+<a href='https://coveralls.io/github/simbabque/Test-WWW-Mechanize-Catalyst-WithContext?branch=master'><img src='https://coveralls.io/repos/github/simbabque/Test-WWW-Mechanize-Catalyst-WithContext/badge.svg?branch=master' alt='Coverage Status' /></a>
+</p>
+
+=end html
+
 =head1 SYNOPSIS
 
     use Test::WWW::Mechanize::Catalyst::WithContext;
