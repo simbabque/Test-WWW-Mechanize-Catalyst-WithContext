@@ -7,7 +7,7 @@ use Carp 'croak';
 require Catalyst::Test;
 extends 'Test::WWW::Mechanize::Catalyst';
 
-our $VERSION = "0.00_01";
+our $VERSION = "0.00_02";
 $VERSION = eval $VERSION;
 
 # this stores the ctx_request function as a code reference
