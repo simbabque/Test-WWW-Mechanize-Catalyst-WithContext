@@ -9,6 +9,10 @@ Test::WWW::Mechanize::Catalyst::WithContext - T::W::M::C can now give you $c
     </p>
 </div>
 
+# VERSION
+
+Version 0.00\_03
+
 # SYNOPSIS
 
     use Test::WWW::Mechanize::Catalyst::WithContext;

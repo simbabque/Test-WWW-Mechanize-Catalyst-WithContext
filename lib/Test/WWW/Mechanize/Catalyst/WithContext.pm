@@ -7,7 +7,7 @@ use Carp 'croak';
 require Catalyst::Test;
 extends 'Test::WWW::Mechanize::Catalyst';
 
-our $VERSION = "0.00_02";
+our $VERSION = "0.00_03";
 $VERSION = eval $VERSION;
 
 # this stores the ctx_request function as a code reference
@@ -66,6 +66,10 @@ Test::WWW::Mechanize::Catalyst::WithContext - T::W::M::C can now give you $c
 </p>
 
 =end html
+
+=head1 VERSION
+
+Version 0.00_03
 
 =head1 SYNOPSIS
 
