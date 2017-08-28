@@ -41,7 +41,7 @@ sub get_context {
 
     croak 'url is required' unless $url;
 
-    my $request = HTTP::Request->new( GET => URI->new_abs( $url, $self->base ) );
+    my $request = HTTP::Request->new( GET => URI->new_abs( $url, $self->base || 'http://localhost' ) );
     $self->cookie_jar->add_cookie_header($request);
 
     my ( $res, $c ) = $self->_get_context->($request);
