@@ -4,7 +4,7 @@
       "simbabque <simbabque@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v3.0.9, CPAN::Meta::Converter version 2.150001",
+   "generated_by" : "Minilla/v3.0.9, CPAN::Meta::Converter version 2.150010",
    "license" : [
       "perl_5"
    ],
@@ -72,5 +72,6 @@
          "web" : "https://github.com/simbabque/Test-WWW-Mechanize-Catalyst-WithContext"
       }
    },
-   "version" : "0.01"
+   "version" : "0.02",
+   "x_serialization_backend" : "JSON::PP version 2.27400"
 }
