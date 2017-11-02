@@ -10,6 +10,12 @@ extends 'Test::WWW::Mechanize::Catalyst';
 our $VERSION = "0.02";
 $VERSION = eval $VERSION;
 
+has ctx => (
+    is     => 'ro',
+    isa    => 'Catalyst',
+    writer => '_set_ctx',
+);
+
 # this stores the ctx_request function as a code reference
 has _get_context => (
     is      => 'ro',
@@ -47,6 +53,41 @@ sub get_context {
     my ( $res, $c ) = $self->_get_context->($request);
 
     return $res, $c;
+}
+
+
+# This code is based on the method for Test::WWW::Mechanize::Catalyst
+
+sub _do_catalyst_request {
+    my ( $self, $request ) = @_;
+
+    my $uri = $request->uri;
+    $uri->scheme('http')    unless defined $uri->scheme;
+    $uri->host('localhost') unless defined $uri->host;
+
+    $request = $self->prepare_request($request);
+    $self->cookie_jar->add_cookie_header($request) if $self->cookie_jar;
+
+    # Woe betide anyone who unsets CATALYST_SERVER
+    return $self->_do_remote_request($request)
+      if $ENV{CATALYST_SERVER};
+
+    $self->_set_host_header($request);
+
+    my $res = $self->_check_external_request($request);
+    return $res if $res;
+
+    my @creds = $self->get_basic_credentials( "Basic", $uri );
+    $request->authorization_basic(@creds) if @creds;
+
+    my ($response, $c) = $self->_get_context->($request);
+
+    $self->_set_ctx($c);
+
+    # LWP would normally do this, but we don't get down that far.
+    $response->request($request);
+
+    return $response;
 }
 
 1;
@@ -175,7 +216,7 @@ L<Catalyst>
 =head1 ATTRIBUTION
 
 This module borrows parts of its test suite from L<Test::WWW::Mechanize::Catalyst>.
-    
+
 =head1 AUTHOR
 
 simbabque <simbabque@cpan.org>

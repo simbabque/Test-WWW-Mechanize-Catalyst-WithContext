@@ -20,7 +20,8 @@ dies_ok { $mech->get_context } 'url is required';
 
 my $old_c;
 {
-    my ( $res, $c ) = $mech->get_context('/');
+    my $res = $mech->get('/');
+    my $c   = $mech->ctx;
     isa_ok $res, 'HTTP::Response', '$res';
     is $res->code, 200, '... and request was successful';
 
@@ -40,7 +41,8 @@ $mech->get_ok('/set_session/hello/world');
 
 is $old_c->session->{hello}, undef, 'old context does not know about session after new request';
 {
-    my ( $res, $c ) = $mech->get_context('/');
+    my $res = $mech->post('/');
+    my $c   = $mech->ctx;
     is $c->session->{hello}, 'world', '... but new context does';
     is $c->stash->{foo}, '2', 'new context has a new stash';
     isnt "$c", "$old_c", 'old context and new context are different refs';
