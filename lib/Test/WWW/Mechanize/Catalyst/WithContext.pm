@@ -42,8 +42,11 @@ sub _build__get_context {
     );
 }
 
+# this is deprecated
 sub get_context {
     my ( $self, $url ) = @_;
+
+    warnings::warn('deprecated', 'get_context is deprecated and will be removed in a future release');
 
     croak 'url is required' unless $url;
 
@@ -56,8 +59,7 @@ sub get_context {
 }
 
 
-# This code is based on the method for Test::WWW::Mechanize::Catalyst
-
+# this code is based on the method for Test::WWW::Mechanize::Catalyst
 sub _do_catalyst_request {
     my ( $self, $request ) = @_;
 
@@ -141,6 +143,8 @@ more details.
 =head1 METHODS
 
 =head2 get_context($url)
+
+This method was B<DEPRECATED!> in version 0.03 and will likely be removed in a future version.
 
 Does a GET request on C<$url> and returns the L<HTTP::Response> and the request context C<$c>.
 
