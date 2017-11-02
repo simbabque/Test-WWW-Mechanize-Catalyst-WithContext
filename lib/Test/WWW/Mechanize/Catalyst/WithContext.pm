@@ -12,11 +12,21 @@ our $VERSION = "0.02";
 $VERSION = eval $VERSION;
 
 has ctx => (
-    is     => 'ro',
-    isa    => 'Catalyst',
-    writer => '_set_ctx',
-    alias  => 'c',
+    is      => 'ro',
+    isa     => 'Catalyst',
+    writer  => '_set_ctx',
+    alias   => 'c',
+    lazy    => 1,
+    builder => '_build_ctx',
 );
+
+sub _build_ctx {
+    my ($self) = @_;
+
+    $self->get('/');
+
+    return $self->ctx;
+}
 
 # this stores the ctx_request function as a code reference
 has _get_context => (
@@ -162,6 +172,9 @@ assign this to a variable. The below example is contrived, but illustrates the i
 
     $mech->get_ok("/cart/add/some_product");
     isnt $first_c->cart->sum_total, $mech->ctx->cart->sum_total, "total cart value changed";
+
+If you call this before you have made any requests, it will do a C<GET /> on your app
+so there is a context.
 
 =head1 METHODS
 
