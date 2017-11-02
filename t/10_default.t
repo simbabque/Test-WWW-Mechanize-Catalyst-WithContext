@@ -32,7 +32,7 @@ my $old_c;
     my $model = $c->model('Foo');
     isa_ok $model, 'Catty::Model::Foo', '$c->model';
     is $model->general,          'general', 'general model attribute works';
-    is $model->context_specific, '1',     'attribute set by ACCEPT_CONTEXT works';
+    is $model->context_specific, '1',       'attribute set by ACCEPT_CONTEXT works';
 
     $old_c = $c;
 }
@@ -42,12 +42,12 @@ $mech->get_ok('/set_session/hello/world');
 is $old_c->session->{hello}, undef, 'old context does not know about session after new request';
 {
     my $res = $mech->post('/');
-    my $c   = $mech->ctx;
+    my $c   = $mech->c;
     is $c->session->{hello}, 'world', '... but new context does';
-    is $c->stash->{foo}, '2', 'new context has a new stash';
+    is $c->stash->{foo},     '2',     'new context has a new stash';
     isnt "$c", "$old_c", 'old context and new context are different refs';
-    isnt $old_c->session->{hello}, $c->session->{hello}, 'session info is different before and after';
+    isnt $old_c->session->{hello}, $c->session->{hello},
+        'session info is different before and after';
 }
-
 
 done_testing;

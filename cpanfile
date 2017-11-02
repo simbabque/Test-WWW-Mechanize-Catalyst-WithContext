@@ -6,6 +6,7 @@ requires 'Catalyst::Plugin::Session::State::Cookie';
 requires 'Catalyst::Test';
 requires 'HTTP::Request';
 requires 'Moose';
+requires 'MooseX::Aliases';
 requires 'Test::WWW::Mechanize::Catalyst';
 
 on 'test' => sub {
