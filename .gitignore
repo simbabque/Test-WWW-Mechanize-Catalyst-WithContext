@@ -29,3 +29,5 @@ cover_db/
 MYMETA.*
 
 /Test-WWW-Mechanize-Catalyst-WithContext-*
+
+*.komodoproject
