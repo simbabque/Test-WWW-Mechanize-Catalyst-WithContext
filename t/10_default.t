@@ -2,6 +2,7 @@ use strict;
 use warnings;
 use Test::More;
 use Test::Exception;
+use Test::Warn;
 
 use lib 't/lib';
 
@@ -16,7 +17,11 @@ $mech->get_ok('/');
 
 is ref( $mech->_get_context ), 'CODE', '_get_context is there';
 
-dies_ok { $mech->get_context } 'url is required';
+warning_like {
+    dies_ok {
+        $mech->get_context
+    } 'url is required';
+} qr/get_context is deprecated/, 'deprecation warning';
 
 my $old_c;
 {
