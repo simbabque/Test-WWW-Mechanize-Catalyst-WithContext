@@ -16,4 +16,7 @@ my $mech = Test::WWW::Mechanize::Catalyst::WithContext->new;
 isa_ok $mech->c, 'Catalyst', '$c';
 isa_ok $mech->c, 'Catty',    '$c';
 
+$mech->get_ok('/static/hello.txt');
+is $mech->c, undef, 'handled by psgi';
+
 done_testing;
