@@ -113,6 +113,7 @@ Test::WWW::Mechanize::Catalyst::WithContext - T::W::M::C can now give you $c
 <p>
 <a href="https://travis-ci.org/simbabque/Test-WWW-Mechanize-Catalyst-WithContext"><img src="https://travis-ci.org/simbabque/Test-WWW-Mechanize-Catalyst-WithContext.svg?branch=master"></a>
 <a href='https://coveralls.io/github/simbabque/Test-WWW-Mechanize-Catalyst-WithContext?branch=master'><img src='https://coveralls.io/repos/github/simbabque/Test-WWW-Mechanize-Catalyst-WithContext/badge.svg?branch=master' alt='Coverage Status' /></a>
+<a href='https://kritika.io/users/simbabque/repos/6965918834838520/heads/master/'><img src='https://kritika.io/users/simbabque/repos/6965918834838520/heads/master/status.svg' alt='Kritika Analysis Status' /></a>
 </p>
 
 =end html
