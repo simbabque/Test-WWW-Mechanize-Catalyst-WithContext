@@ -8,7 +8,7 @@ use Carp 'croak';
 require Catalyst::Test;
 extends 'Test::WWW::Mechanize::Catalyst';
 
-our $VERSION = "0.02";
+our $VERSION = "0.03";
 $VERSION = eval $VERSION;
 
 has ctx => (
@@ -120,7 +120,7 @@ Test::WWW::Mechanize::Catalyst::WithContext - T::W::M::C can now give you $c
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =head1 SYNOPSIS
 
