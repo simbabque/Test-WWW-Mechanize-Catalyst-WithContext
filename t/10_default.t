@@ -55,4 +55,7 @@ is $old_c->session->{hello}, undef, 'old context does not know about session aft
         'session info is different before and after';
 }
 
+$mech->get_ok('/static/hello.txt');
+is $mech->c, undef, 'handled by psgi';
+
 done_testing;

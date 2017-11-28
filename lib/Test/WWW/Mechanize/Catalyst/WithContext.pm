@@ -16,17 +16,8 @@ has ctx => (
     isa     => 'Maybe[Catalyst]',
     writer  => '_set_ctx',
     alias   => 'c',
-    lazy    => 1,
-    builder => '_build_ctx',
+    default => undef,
 );
-
-sub _build_ctx {
-    my ($self) = @_;
-
-    $self->get('/');
-
-    return $self->ctx;
-}
 
 # this stores the ctx_request function as a code reference
 has _get_context => (
@@ -58,11 +49,13 @@ sub _build__get_context {
 sub get_context {
     my ( $self, $url ) = @_;
 
-    warnings::warn('deprecated', 'get_context is deprecated and will be removed in a future release');
+    warnings::warn( 'deprecated',
+        'get_context is deprecated and will be removed in a future release' );
 
     croak 'url is required' unless $url;
 
-    my $request = HTTP::Request->new( GET => URI->new_abs( $url, $self->base || 'http://localhost' ) );
+    my $request =
+        HTTP::Request->new( GET => URI->new_abs( $url, $self->base || 'http://localhost' ) );
     $self->cookie_jar->add_cookie_header($request);
 
     my ( $res, $c ) = $self->_get_context->($request);
@@ -70,8 +63,8 @@ sub get_context {
     return $res, $c;
 }
 
-
-# this code is based on the method for Test::WWW::Mechanize::Catalyst
+# This code is based on the method for Test::WWW::Mechanize::Catalyst
+# and overwrites it.
 sub _do_catalyst_request {
     my ( $self, $request ) = @_;
 
@@ -84,7 +77,7 @@ sub _do_catalyst_request {
 
     # Woe betide anyone who unsets CATALYST_SERVER
     return $self->_do_remote_request($request)
-      if $ENV{CATALYST_SERVER};
+        if $ENV{CATALYST_SERVER};
 
     $self->_set_host_header($request);
 
@@ -94,7 +87,7 @@ sub _do_catalyst_request {
     my @creds = $self->get_basic_credentials( "Basic", $uri );
     $request->authorization_basic(@creds) if @creds;
 
-    my ($response, $c) = $self->_get_context->($request);
+    my ( $response, $c ) = $self->_get_context->($request);
 
     $self->_set_ctx($c);
 
@@ -103,6 +96,8 @@ sub _do_catalyst_request {
 
     return $response;
 }
+
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );
 
 1;
 __END__
@@ -165,7 +160,7 @@ the one you feel more comfortable with.
     is $mech->c->stash->{foo}, "bar", "foo got set to bar";   # equivalent
     
 If you need to keep an old context around to compare things before and after a request,
-assign this to a variable. The below example is contrived, but illustrates the idea.
+assign it to a variable. The below example is contrived, but illustrates the idea.
 
     $mech->get_ok("/cart");
     my $first_c = $mech->ctx;
@@ -173,8 +168,9 @@ assign this to a variable. The below example is contrived, but illustrates the i
     $mech->get_ok("/cart/add/some_product");
     isnt $first_c->cart->sum_total, $mech->ctx->cart->sum_total, "total cart value changed";
 
-If you call this before you have made any requests, it will do a C<GET /> on your app
-so there is a context.
+If you call this before you have made any requests, it will return C<undef>. It will also
+return C<undef> if there was no Catalyst context, which is the case if the request
+was handled by the Plack layer directly.
 
 =head1 METHODS
 
