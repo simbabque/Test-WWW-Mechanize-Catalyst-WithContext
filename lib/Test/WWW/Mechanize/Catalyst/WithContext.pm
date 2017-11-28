@@ -13,7 +13,7 @@ $VERSION = eval $VERSION;
 
 has ctx => (
     is      => 'ro',
-    isa     => 'Catalyst',
+    isa     => 'Maybe[Catalyst]',
     writer  => '_set_ctx',
     alias   => 'c',
     lazy    => 1,
